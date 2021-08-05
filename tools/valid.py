@@ -106,7 +106,7 @@ def main():
 
     if cfg.TEST.MODEL_FILE:
         logger.info('=> loading model from {}'.format(cfg.TEST.MODEL_FILE))
-        model.load_state_dict(torch.load(cfg.TEST.MODEL_FILE), strict=True)
+        model.load_state_dict(torch.load(cfg.TEST.MODEL_FILE, map_location=torch.device('cpu')), strict=True)
     else:
         model_state_file = os.path.join(
             final_output_dir, 'model_best.pth.tar'
@@ -114,7 +114,7 @@ def main():
         logger.info('=> loading model from {}'.format(model_state_file))
         model.load_state_dict(torch.load(model_state_file))
 
-    model = torch.nn.DataParallel(model, device_ids=cfg.GPUS).cuda()
+    #model = torch.nn.DataParallel(model, device_ids=cfg.GPUS).cuda()
     model.eval()
 
     data_loader, test_dataset = make_test_dataloader(cfg)
@@ -149,7 +149,7 @@ def main():
                 )
 
                 image_resized = transforms(image_resized)
-                image_resized = image_resized.unsqueeze(0).cuda()
+                image_resized = image_resized.unsqueeze(0).cpu()
 
                 heatmap, posemap = get_multi_stage_outputs(
                     cfg, model, image_resized, cfg.TEST.FLIP_TEST

@@ -14,7 +14,7 @@ import torch
 
 def get_heat_value(pose_coord, heatmap):
     kpt_now, num_joints, _ = pose_coord.shape
-    heatval = torch.zeros((kpt_now, num_joints, 1)).cuda()
+    heatval = torch.zeros((kpt_now, num_joints, 1)).cpu()
     for i in range(kpt_now):
         for j in range(num_joints):
             k1, k2 = int(pose_coord[i,j,0]), int(pose_coord[i,j,0])+1

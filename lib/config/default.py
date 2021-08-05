@@ -33,7 +33,7 @@ _C.MULTIPROCESSING_DISTRIBUTED = True
 
 # Cudnn related params
 _C.CUDNN = CN()
-_C.CUDNN.BENCHMARK = True
+_C.CUDNN.BENCHMARK = True #This flag allows you to enable the inbuilt cudnn auto-tuner to find the best algorithm to use for your hardware.
 _C.CUDNN.DETERMINISTIC = False
 _C.CUDNN.ENABLED = True
 
@@ -140,7 +140,10 @@ _C.RESCORE.DATA_FILE = 'data/rescore_data/rescore_dataset_train_coco_kpt'
 
 
 def update_config(cfg, args):
+    #Make this CfgNode and all of its children mutable.
     cfg.defrost()
+    
+    ## load values from a file and list
     cfg.merge_from_file(args.cfg)
     cfg.merge_from_list(args.opts)
 

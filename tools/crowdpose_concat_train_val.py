@@ -20,7 +20,7 @@ def parse_args():
 
     parser.add_argument('--data_dir',
                         help='data directory containing json annotation file',
-                        default='/mnt/crowdpose/json',
+                        default='./data/crowdpose/json',
                         type=str)
 
     args = parser.parse_args()

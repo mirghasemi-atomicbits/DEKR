@@ -104,7 +104,7 @@ def get_pose_estimation_prediction(cfg, model, image, vis_thre, transforms):
             )
 
             image_resized = transforms(image_resized)
-            image_resized = image_resized.unsqueeze(0).cuda()
+            image_resized = image_resized.unsqueeze(0).cpu()
 
             heatmap, posemap = get_multi_stage_outputs(
                 cfg, model, image_resized, cfg.TEST.FLIP_TEST
@@ -193,7 +193,7 @@ def main():
     if cfg.TEST.MODEL_FILE:
         print('=> loading model from {}'.format(cfg.TEST.MODEL_FILE))
         pose_model.load_state_dict(torch.load(
-            cfg.TEST.MODEL_FILE), strict=False)
+            cfg.TEST.MODEL_FILE,map_location=torch.device('cpu')), strict=False)
     else:
         raise ValueError('expected model defined in config at TEST.MODEL_FILE')
 
